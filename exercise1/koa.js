@@ -33,8 +33,6 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if(ctx.path === "/image") {
         //return ./data/cat.jpg
-        ctx.set("Content-Type", "image/jpeg");
-        ctx.body = fs.createReadStream("./data/cat.jpg");
     }
     else {
         await next();
@@ -44,8 +42,6 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if(ctx.path === "/stream") {
         //return chunked https://swapi.co/api/films/'
-        ctx.set("Content-Type", "application/json");
-        ctx.body = await streamJSON('https://swapi.co/api/films/');
     }
     else {
         await next();
@@ -55,8 +51,6 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if(ctx.path === "/json") {
         //return data/films.json
-        ctx.set("Content-Type", "application/json");
-        ctx.body = JSON.parse( await fs.readFileAsync('data/films.json', 'utf8') );
     }
     else {
         await next();

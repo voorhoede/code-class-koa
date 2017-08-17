@@ -42,8 +42,7 @@ router.get('/', async (ctx, next) => {
   */
 const {minify} = require('html-minifier');
 const compressHTMLMiddleware = async (ctx, next) => {
-    await next();
-    ctx.body = minify(ctx.body, minifyOptions);
+
 };
 
 router.get("/minified", compressHTMLMiddleware, async (ctx, next) => {
@@ -69,15 +68,7 @@ const loginFormHTML = `
 `
 
 const authMiddleware = async (ctx, next) => {
-    const {username, password, posted} = ctx.request.body;
-    if(!posted) {
-        ctx.body = loginFormHTML;
-        return;
-    }
-    if (username !== 'admin' || password !== 'admin') {
-        ctx.throw(403, 'Access denied');
-    }
-    await next();
+    
 }
 
 router.all('/auth', bodyParser(), authMiddleware, async (ctx, next) => {
@@ -94,16 +85,7 @@ router.all('/auth', bodyParser(), authMiddleware, async (ctx, next) => {
  * - Otherwise set new e-tag
  */
 const etagMiddleware = async (ctx, next) => {
-    const previousETag = ctx.request.get('If-None-Match');
-    await next();
-    const newETag = etag(ctx.body);
-
-    if(newETag === previousETag) {
-        ctx.status = 304;
-    }
-    else {
-        ctx.set('ETag', newETag);
-    }
+    
 }
 
 router.get("/etag", etagMiddleware, async (ctx, next) => {

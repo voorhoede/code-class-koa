@@ -24,15 +24,7 @@ router.get('/', async (ctx, next) => {
     `
 });
 
-router.use(async (ctx, next) => {
-    try {
-        await next();
-    }
-    catch(e) {
-        ctx.status = e.status || 500;
-        ctx.body = `Error: ${e.message}`
-    }
-});
+// add your error middleware here
 
 /**
  * The next routes all throw a error

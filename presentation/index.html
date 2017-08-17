@@ -1,0 +1,205 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+        <link rel="stylesheet" href="lib/css/dracula.css">
+
+        <style>
+            .compare {
+                display: flex;
+                flex-direction: row;
+                font-size: .7em;
+            }
+
+            .compare > * {
+                flex: 1;
+                overflow: hidden;
+            }
+
+            .reveal pre {
+                font-size: .4em;
+            }
+
+        </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+                    <h1>Koa</h1>
+                </section>
+				
+                <section>
+                    <h2>What is Koa</h2>
+
+                    <p>An alternative to Express</p>
+                </section>
+
+                <section>
+                    <h2>Pros of Koa</h2>
+
+                    <ul>
+                        <li>Replaces callbacks with promises / async await</li>
+                        <li>Lighter and a bit faster</li>
+                        <li>Middleware works better / less hacky</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Cons of Koa</h2>
+
+                    <ul>
+                        <li>Less middleware</li>
+                        <li>Most middleware made for Koa v1 (koa-convert)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Differences between Koa and Express</h2>
+                </section>
+
+                <section>
+                    <h2>Handlers</h2>
+
+                    <div class="compare">
+                        <div>
+                            <p>Koa</p>
+                            <pre class="javascript"><code data-trim>
+                                app.use((ctx, next) => {
+                                    //ctx.request
+                                    //ctx.request.get == ctx.get 
+                                    //ctx.response
+                                    //ctx.response.body == ctx.body
+                                    ctx.body = ctx.get('User-Agent');
+                                })
+                            </code></pre>
+                        </div>
+
+                        <div>
+                            <p>Express</p>
+                            <pre class="javascript"><code data-trim>
+                                app.use((req, res, next) => {
+                                    res.send(req.get('User-Agent'));
+                                })
+                            </code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Async handlers</h2>
+
+                    <div class="compare">
+                        <div>
+                            <p>Koa</p>
+                            <pre class="javascript"><code data-trim>
+                                app.use(async (ctx, next) => {
+                                    ctx.body = await db.findAsync('1');
+                                })
+                            </code></pre>
+                        </div>
+
+                        <div>
+                            <p>Express</p>
+                            <pre class="javascript"><code data-trim>
+                                app.use((req, res, next) => {
+                                    db.find('1', (err, results) => {
+                                        if(err) {
+                                            return next(err);
+                                        }
+                                        res.json(results);
+                                    });
+                                })
+                            </code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Async handlers 2</h2>
+
+                    <div class="compare">
+                        <div>
+                            <p>Koa</p>
+                            <pre class="javascript"><code data-trim>
+                                app.use(async (ctx, next) => {
+                                    ctx.body = await db.findAsync('1');
+                                })
+                            </code></pre>
+                        </div>
+
+                        <div>
+                            <p>Express</p>
+                            <pre class="javascript"><code data-trim>
+                                // crashes on error
+                                app.use(async (req, res, next) => {
+                                    res.send( await db.findAsync('1') );
+                                })
+                            </code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Middleware</h2>
+
+                    <div class="compare">
+                        <div>
+                            <p>Koa</p>
+                            <pre class="javascript"><code data-trim>
+                                app.use(async (ctx, next) => {
+                                    //do something here with the request
+                                    try {
+                                        await next();
+                                    }
+                                    catch(e) {
+                                        //custom error handling maybe?
+                                    }
+                                    //do something here with the response
+                                })
+                            </code></pre>
+                        </div>
+
+                        <div>
+                            <p>Express</p>
+                            <pre class="javascript"><code data-trim>
+                                app.use((req, res, next) => {
+                                    //do something with request
+
+                                    //monkeypatch the send code
+                                    const oldSend = res.send;
+                                    res.send = body => {
+                                        oldSend('hello ' + body);
+                                    }
+
+                                    next();
+                                    //can't do anything here :-(
+                                })
+                            </code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Exercises (node 7)</h2>
+
+                    <ul>
+                        <li>npm run start{1 to 3}</li>
+                        <li>starts up a koa server on port 3000 and express server on port 3001</li>
+                    </ul>
+                </section>
+			</div>
+		</div>
+        <script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+                history: true,
+
+                dependencies: [
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                ]
+            });
+		</script>
+	</body>
+</html>

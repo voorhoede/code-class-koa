@@ -1,0 +1,33 @@
+{
+  "name": "code-class-koa",
+  "version": "1.0.0",
+  "description": "Code class for koa1",
+  "scripts": {
+    "start1:express": "nodemon exercise1/express.js",
+    "start1:koa": "nodemon exercise1/koa.js",
+    "start1": "run-p start1:*",
+    "start2:express": "nodemon exercise2/express.js",
+    "start2:koa": "nodemon exercise2/koa.js",
+    "start2": "run-p start2:*",
+    "start3:express": "nodemon exercise3/express.js",
+    "start3:koa": "nodemon exercise3/koa.js",
+    "start3": "run-p start3:*",
+    "start4:express": "nodemon exercise4/express.js",
+    "start4:koa": "nodemon exercise4/koa.js",
+    "start4": "run-p start4:*"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "3.5.0",
+    "body-parser": "1.17.2",
+    "etag": "1.8.0",
+    "express": "4.15.4",
+    "html-minifier": "3.5.3",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "4.2.0",
+    "koa-router": "7.2.1",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "4.0.2"
+  }
+}

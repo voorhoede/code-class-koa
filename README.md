@@ -12,8 +12,11 @@ $ cd code-class-koa
 # install dependencies
 $ npm install
 
-# start server http://localhost:9777
-$ npm start
+# koa server http://localhost:3000
+# express server http://localhost:3001
+$ npm run start1
+$ npm run start2
+$ npm run start3
 ```
 
 ## Prerequisites
